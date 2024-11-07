@@ -20,7 +20,7 @@ steps:
     args:
       - run
       - --filename=./K8s/
-      - --location=us-central1
+      - --location=us-central1-a
       - --cluster=cluster-3
     id: deploy
 options:
