@@ -1,10 +1,6 @@
 FROM openjdk:17-jdk-alpine
 
 LABEL authors="alishanali"
-RUN apt-get update && apt-get install -y \
-    vim \
-    bash-completion \
-    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /outerapp
 
