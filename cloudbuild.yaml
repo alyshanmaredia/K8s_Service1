@@ -20,8 +20,8 @@ steps:
     args:
       - run
       - --filename=./K8s/
-      - --location=us-central1
-      - --cluster=cluster-3
+      - --location=us-central1-a
+      - --cluster=a3-cluster
     id: deploy
 options:
   logging: CLOUD_LOGGING_ONLY
