@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: outercontainer
-          image: us-east1-docker.pkg.dev/dalprojects/k8s-service1/outercontainer:latest
+          image: us-east1-docker.pkg.dev/dalprojects/k8s/outercontainer:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 6000
@@ -24,6 +24,6 @@ spec:
       volumes:
         - name: data-volume
           persistentVolumeClaim:
-            claimName: host-pvc
+            claimName: a3-pvc
 
 
