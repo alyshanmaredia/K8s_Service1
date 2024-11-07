@@ -22,7 +22,7 @@ steps:
       - "deployment.apps/outercontainer-deployment"
       - "--ignore-not-found"
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-2'
     id: cleanup old deployment
   - name: "gcr.io/cloud-builders/gke-deploy"
