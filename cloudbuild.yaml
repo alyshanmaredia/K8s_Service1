@@ -3,18 +3,18 @@ steps:
   - name: 'maven'
     entrypoint: 'mvn'
     args: ['clean']
-    id: clean
+    id: clean mvn
   - name: 'maven'
     entrypoint: 'mvn'
     args: [ 'install','-DskipTests' ]
-    id: install
+    id: install mvn
   #Steps to create and push image to the registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1', '.']
-    id: build image
+    id: build docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1']
-    id: push image
+    id: push docker image
   #Steps to clean and deploy latest build.
   - name: "gcr.io/cloud-builders/kubectl"
     args:
@@ -24,14 +24,14 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
       - 'CLOUDSDK_CONTAINER_CLUSTER=a3-cluster'
-    id: cleanup old deployment
+    id: clear old deployment
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
       - --filename=./K8s/
       - --location=us-central1-a
       - --cluster=a3-cluster
-    id: deploy
+    id: deployment
 options:
   logging: CLOUD_LOGGING_ONLY
 
