@@ -59,3 +59,18 @@ hs_err_pid*
 
 # Windows
 Thumbs.db
+
+# Terraform files
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform/
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# sensitive files
+*.pem
+*.key
