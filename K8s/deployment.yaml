@@ -24,3 +24,17 @@ spec:
         - name: a3-volume
           persistentVolumeClaim:
             claimName: a3-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: outercontainer
+spec:
+  selector:
+    app: outercontainer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 6000
+  type: LoadBalancer
