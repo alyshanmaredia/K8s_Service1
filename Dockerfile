@@ -2,10 +2,10 @@ FROM openjdk:17-jdk-alpine
 
 LABEL authors="alishanali"
 
-WORKDIR /outercontainer
+WORKDIR /outerapp
 
-COPY target/outercontainer-0.0.1.jar outercontainer.jar
+COPY target/outercontainer-0.0.1.jar outerapp.jar
 
-COPY src/main/resources/application.properties /outercontainer/config/
+COPY src/main/resources/application.properties /outerapp/config/
 EXPOSE 6000
-ENTRYPOINT ["java", "-jar", "outercontainer.jar","--spring.config.location=/outercontainer/config/application.properties"]
+ENTRYPOINT ["java", "-jar", "outerapp.jar","--spring.config.location=/outerapp/config/application.properties"]
