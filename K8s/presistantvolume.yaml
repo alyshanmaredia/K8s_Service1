@@ -7,7 +7,7 @@ spec:
     storage: 10Gi
   storageClassName: standard
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   gcePersistentDisk:
     pdName: a3-disk
     fsType: ext4
