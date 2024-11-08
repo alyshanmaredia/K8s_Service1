@@ -22,15 +22,15 @@ steps:
       - "deployment.apps/outercontainer-deployment"
       - "--ignore-not-found"
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=a3-cluster'
     id: clear old deployment
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
       - --filename=./K8s/deployment.yaml
-      - --location=us-central1
-      - --cluster=cluster-1
+      - --location=us-central1-c
+      - --cluster=a3-cluster
     id: deployment
 options:
   logging: CLOUD_LOGGING_ONLY
