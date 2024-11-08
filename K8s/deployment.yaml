@@ -16,7 +16,7 @@ spec:
         - name: outercontainer
           image: us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1
           ports:
-            - containerPort: 3001
+            - containerPort: 8080
           volumeMounts:
             - name: a3-volume
               mountPath: /ali_PV_dir
@@ -31,10 +31,9 @@ kind: Service
 metadata:
   name: outercontainer
 spec:
+  type: LoadBalancer
   selector:
     app: outercontainer
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3001
-  type: LoadBalancer
+    - port: 80
+      targetPort: 8080
