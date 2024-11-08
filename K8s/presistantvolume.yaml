@@ -8,5 +8,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   gcePersistentDisk:
-    pdName: disk-1
+    pdName: a3-disk
     fsType: ext4
