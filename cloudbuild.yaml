@@ -1,37 +1,35 @@
 steps:
-  #Standard steps to clean and install using mvn
+  # Clean and install using Maven
   - name: 'maven'
     entrypoint: 'mvn'
-    args: ['clean']
-    id: clean mvn
-  - name: 'maven'
-    entrypoint: 'mvn'
-    args: [ 'install','-DskipTests' ]
-    id: install mvn
-  #Steps to create and push image to the registry
+    args: ['clean', 'install', '-DskipTests']
+    id: 'build and install mvn'
+
+  # Build and push Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1', '.']
-    id: build docker image
+    id: 'build docker image'
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1']
-    id: push docker image
-  #Steps to clean and deploy latest build
-  - name: "gcr.io/cloud-builders/kubectl"
+    id: 'push docker image'
+
+  # Deploy the latest build to Kubernetes
+  - name: 'gcr.io/cloud-builders/kubectl'
     args:
-      - "delete"
-      - "deployment.apps/outercontainer"
-      - "--ignore-not-found"
+      - 'delete'
+      - 'deployment.apps/outercontainer'
+      - '--ignore-not-found'
     env:
-      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-2'
-    id: clear old deployment
-  - name: "gcr.io/cloud-builders/gke-deploy"
+    id: 'clear old deployment'
+  - name: 'gcr.io/cloud-builders/gke-deploy'
     args:
-      - run
-      - --filename=./K8s/
-      - --location=us-central1-a
-      - --cluster=cluster-2
-    id: deployment
+      - 'run'
+      - '--filename=./K8s/'
+      - '--location=us-central1'
+      - '--cluster=cluster-2'
+    id: 'deploy new build'
+
 options:
   logging: CLOUD_LOGGING_ONLY
-
