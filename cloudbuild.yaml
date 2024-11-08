@@ -23,14 +23,14 @@ steps:
       - "--ignore-not-found"
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=a3-cluster'
     id: cleanup old deployment
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
       - --filename=./K8s/
       - --location=us-central1-a
-      - --cluster=cluster-1
+      - --cluster=a3-cluster
     id: deploy
 options:
   logging: CLOUD_LOGGING_ONLY
