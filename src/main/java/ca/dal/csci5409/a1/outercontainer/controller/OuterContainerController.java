@@ -17,10 +17,9 @@ import java.util.Map;
 @Slf4j
 @RequestMapping(Constants.DEFAULT)
 public class OuterContainerController {
-    @Value("${spring.datasource.url}")
-    private String processorService_BASEURL;
-    @Value("${fileLocation}")
-    private String filePath;
+
+    private String processorService_BASEURL = "http://processorcontainer-service:7000";
+    private String filePath = "/ali_PV_dir/";
 
     @PostMapping(Constants.CALCULATEENDPOINT)
     public ResponseEntity<Response> FileHandler(@RequestBody Request request) throws Exception {
