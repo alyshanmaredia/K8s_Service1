@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: outercontainer-deployment
+  name: outercontainer
 spec:
   replicas: 1
   selector:
@@ -15,7 +15,6 @@ spec:
       containers:
         - name: outercontainer
           image: us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1
-          imagePullPolicy: Always
           ports:
             - containerPort: 6000
           volumeMounts:

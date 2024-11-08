@@ -3,13 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: a3-pvc
 spec:
-  volumeName: a3-pv
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
-  storageClassName: standard
-  selector:
-    matchLabels:
-      name: a3-pv
