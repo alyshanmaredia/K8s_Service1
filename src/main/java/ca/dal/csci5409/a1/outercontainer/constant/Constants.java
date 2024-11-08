@@ -10,4 +10,5 @@ public class Constants {
     public static final String FILE = "file";
     public static final String ERROR = "error";
     public static final String PROCESSORSERVICE_COMPUTE_ENDPOINT = "/process/compute";
+    public static final String STOREFILE = "store-file";
 }
