@@ -2,6 +2,7 @@ package ca.dal.csci5409.a1.outercontainer.service;
 
 import ca.dal.csci5409.a1.outercontainer.constant.Constants;
 import ca.dal.csci5409.a1.outercontainer.exception.CustomException;
+import ca.dal.csci5409.a1.outercontainer.model.FileRequest;
 import ca.dal.csci5409.a1.outercontainer.model.Request;
 import ca.dal.csci5409.a1.outercontainer.model.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,8 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
+import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.Objects;
 
 @Slf4j
@@ -94,5 +97,45 @@ public class FileHandlerService {
         return message;
     }
 
+    public static Map<String, String> CreateFile(FileRequest request, String filePath) {
 
+        if(Objects.isNull(request.getFile())){
+            Map<String,String> errorInfo = new LinkedHashMap<>();
+            errorInfo.put("file",null);
+            errorInfo.put("error","Invalid JSON input.");
+            return errorInfo;
+        }
+
+        String data = request.getData();
+        String fn = request.getFile();
+
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            FileWriter fileWriter = new FileWriter(filePath + fn);
+            String[] records = data.split("\n");
+
+            for(String r: records){
+                String[] object = r.split(",");
+                stringBuilder.append(object[0].trim()).append(",").append(object[1].trim()).append("\n");
+            }
+
+            fileWriter.write(stringBuilder.toString());
+            fileWriter.close();
+
+            Map<String, String> successResponse = new HashMap<>();
+
+            successResponse.put("file", request.getFile());
+            successResponse.put("message", "Success.");
+
+
+            return successResponse;
+        } catch (IOException e) {
+            Map<String, String> errorResponse = new HashMap<>();
+
+            errorResponse.put("file", request.getFile());
+            errorResponse.put("error", "Error while storing the file to the storage.");
+
+            return errorResponse;
+        }
+    }
 }
