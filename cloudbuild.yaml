@@ -10,12 +10,21 @@ steps:
     id: install
   #Steps to create and push image to the registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1', '.']
     id: build image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:latest']
+    args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1']
     id: push image
-  #Deploy latest build.
+  #Steps to clean and deploy latest build
+  - name: "gcr.io/cloud-builders/kubectl"
+    args:
+      - "delete"
+      - "deployment.apps/outercontainer-deployment"
+      - "--ignore-not-found"
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=a3-cluster'
+    id: cleanup old deployment
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
