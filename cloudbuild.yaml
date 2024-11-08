@@ -1,5 +1,5 @@
 steps:
-  # Standard steps to clean and install using Maven
+  #Standard steps to clean and install using mvn
   - name: 'maven'
     entrypoint: 'mvn'
     args: ['clean']
@@ -8,23 +8,14 @@ steps:
     entrypoint: 'mvn'
     args: [ 'install','-DskipTests' ]
     id: install mvn
-
-  # Steps to create and push image to the registry
+  #Steps to create and push image to the registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1', '.']
     id: build docker image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1']
     id: push docker image
-
-  # Authenticate with GKE (if necessary)
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args:
-      - 'auth'
-      - 'activate-service-account'
-      - '--key-file=$GOOGLE_APPLICATION_CREDENTIALS'
-
-  # Steps to clean and deploy latest build
+  #Steps to clean and deploy latest build
   - name: "gcr.io/cloud-builders/kubectl"
     args:
       - "delete"
@@ -34,14 +25,13 @@ steps:
       - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
       - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
     id: clear old deployment
-
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
-      - --filename=./K8s/deployment-v1.yaml
+      - --filename=./K8s/deployment.yaml
       - --location=us-central1-a
       - --cluster=cluster-1
     id: deployment
-
 options:
   logging: CLOUD_LOGGING_ONLY
+
