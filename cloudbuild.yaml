@@ -1,33 +1,37 @@
 steps:
+  #Standard steps to clean and install using mvn
+  - name: 'maven'
+    entrypoint: 'mvn'
+    args: ['clean']
+    id: clean mvn
+  - name: 'maven'
+    entrypoint: 'mvn'
+    args: [ 'install','-DskipTests' ]
+    id: install mvn
+  #Steps to create and push image to the registry.
   - name: 'gcr.io/cloud-builders/docker'
-    id: Build
-    args:
-      - 'build'
-      - '-t'
-      - 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1'
-      - '.'
-
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1', '.']
+    id: build docker image
   - name: 'gcr.io/cloud-builders/docker'
-    id: Push
+    args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1']
+    id: push docker image
+  #Steps to clean and deploy latest build
+  - name: "gcr.io/cloud-builders/kubectl"
     args:
-      - 'push'
-      - 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1'
-
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: Deploy
-    entrypoint: 'bash'
+      - "delete"
+      - "deployment.apps/outercontainer-deployment"
+      - "--ignore-not-found"
+    env:
+      - 'CLOUDSDK_COMPUTE_ZONE=us-central1'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=cluster-1'
+    id: clear old deployment
+  - name: "gcr.io/cloud-builders/gke-deploy"
     args:
-      - '-c'
-      - |
-        PROJECT=$$(gcloud config get-value core/project)
-        gke-gcloud-auth-plugin --version
-        export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-        gcloud container clusters get-credentials "cluster-1" --project "dalprojects" --zone "us-central1"
-        kubectl apply -f K8s/persistentvolume.yaml
-        kubectl apply -f K8s/persistentvolumeclaim.yaml
-        kubectl apply -f K8s/deployment.yaml
-        kubectl apply -f K8s/service.yaml
-
+      - run
+      - --filename=./K8s/deployment.yaml
+      - --location=us-central1
+      - --cluster=cluster-1
+    id: deployment
 options:
   logging: CLOUD_LOGGING_ONLY
 
