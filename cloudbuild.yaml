@@ -28,7 +28,7 @@ steps:
   - name: "gcr.io/cloud-builders/gke-deploy"
     args:
       - run
-      - --filename=./K8s/deployment.yaml
+      - --filename=./K8s
       - --location=us-central1-a
       - --cluster=cluster-1
     id: deployment
