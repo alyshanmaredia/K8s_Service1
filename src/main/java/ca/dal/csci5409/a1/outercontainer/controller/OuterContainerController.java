@@ -30,9 +30,15 @@ public class OuterContainerController {
         return FileHandlerService.GetProcessedDataResult(request,FullURL);
     }
 
+    @PostMapping("test")
+    public ResponseEntity<String> Test() throws Exception{
+        return ResponseEntity.ok("Hello World");
+    }
+
     @PostMapping(Constants.STOREFILE)
     public ResponseEntity<Map<String,String>> storeFileData(@RequestBody FileRequest request) throws Exception {
         Map<String,String> result = FileHandlerService.CreateFile(request,filePath);
         return ResponseEntity.ok(result);
     }
+
 }
