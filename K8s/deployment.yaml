@@ -18,11 +18,9 @@ spec:
           ports:
             - containerPort: 6000
           volumeMounts:
-            - name: data-volume
+            - name: a3-volume
               mountPath: /ali_PV_dir
       volumes:
-        - name: data-volume
+        - name: a3-volume
           persistentVolumeClaim:
             claimName: a3-pvc
-
-
