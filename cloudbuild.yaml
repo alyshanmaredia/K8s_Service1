@@ -15,7 +15,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1']
     id: push image
-  #Steps to clean and deploy latest build
+  #Steps to clean and deploy latest build.
   - name: "gcr.io/cloud-builders/kubectl"
     args:
       - "delete"
