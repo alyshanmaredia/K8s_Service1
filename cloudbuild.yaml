@@ -8,7 +8,7 @@ steps:
     entrypoint: 'mvn'
     args: [ 'install','-DskipTests' ]
     id: install mvn
-  #Steps to create and push image to the registry.
+  #Steps to create and push image to the registry
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'us-central1-docker.pkg.dev/dalprojects/k8s/outercontainer:v1', '.']
     id: build docker image
